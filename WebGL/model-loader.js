@@ -15,9 +15,9 @@ async function loadModel(path) {
 
 function parseOBJ(text) {
     // because indices are base 1 let's just fill in the 0th data
-    var objPositions = [];
-    var objTexcoords = [];
-    var objNormals = [];
+    var objPositions = [[0, 0, 0]];
+    var objTexcoords = [[0, 0]];
+    var objNormals = [[0, 0, 0]];
     var objIndices = [];
 
     const noop = () => { };
@@ -34,10 +34,34 @@ function parseOBJ(text) {
             objTexcoords.push(parts.map(parseFloat));
         },
         f(parts) {
-            for (var i = 0; i < parts.length; i++) {
-                var split = parts[i].split('/');
-                objIndices.push(split.map(str => parseInt(str, 10)));
+            if (parts.length == 3) {
+                for (var i = 0; i < 3; i++) {
+                    var split = parts[i].split('/');
+                    objIndices.push();
+                }
+            } else if (parts.length == 4) {
+                var split = parts[0].split('/');
+                objIndices.push(parseInt(split[0]));
+
+                split = parts[1].split('/');
+                objIndices.push(parseInt(split[0]));
+
+                split = parts[2].split('/');
+                objIndices.push(parseInt(split[0]));
+
+                split = parts[0].split('/');
+                objIndices.push(parseInt(split[0]));
+
+                split = parts[3].split('/');
+                objIndices.push(parseInt(split[0]));
+
+                split = parts[2].split('/');
+                objIndices.push(parseInt(split[0]));
+            } else {
+                throw new Exception();
             }
+
+
         },
         s: noop,    // smoothing group
         mtllib(parts, unparsedArgs) {
@@ -52,7 +76,7 @@ function parseOBJ(text) {
             //groups = parts;
         },
         o(parts, unparsedArgs) {
-           // object = unparsedArgs;
+            // object = unparsedArgs;
         },
     };
 
@@ -87,7 +111,7 @@ function parseOBJ(text) {
 
     objPositions = temp;
 
-    temp = []
+    /*temp = []
 
     for (var i = 0; i < objIndices.length; i++) {
         for (var j = 0; j < objIndices[i].length; j++) {
@@ -95,7 +119,7 @@ function parseOBJ(text) {
         }
     }
 
-    objIndices = temp;
+    objIndices = temp;*/
 
     temp = []
 
