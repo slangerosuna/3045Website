@@ -109,7 +109,7 @@ function parseOBJ(text) {
 
     for (var i = 0; i < objIndicesTempData.length; i++) {
         objNormalsByVertex[objIndicesTempData[i][0]].push(objNormals[objIndicesTempData[i][2]]);
-        objTexcoordsByVertex[objIndicesTempData[i][0]].push(objNormals[objIndicesTempData[i][1]]);
+        objTexcoordsByVertex[objIndicesTempData[i][0]].push(objTexcoords[objIndicesTempData[i][1]]);
     }
 
     for (var i = 0; i < objNormalsByVertex.length; i++) {

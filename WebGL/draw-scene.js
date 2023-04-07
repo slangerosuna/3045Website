@@ -76,7 +76,7 @@ function drawScene(gl, programInfo, buffers, texture, cubeRotation, model) {
     mat4.translate(
         viewMatrix, // destination matrix
         viewMatrix, // matrix to translate
-        [-0.0, 0.0, -6.0]
+        [-0.0, 0.0, -3.0]
     ); // amount to translate
 
     const normalMatrix = mat4.create();
