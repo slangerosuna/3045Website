@@ -1,4 +1,4 @@
-function drawScene(gl, programInfo, buffers, texture, cubeRotation, model) {
+function drawScene(gl, programInfo, buffers, texture, cubeRotation, rot) {
     gl.clearColor(0.0, 0.0, 0.0, 1.0); // Clear to black, fully opaque
     gl.clearDepth(1.0); // Clear everything
     gl.enable(gl.DEPTH_TEST); // Enable depth testing
@@ -33,19 +33,19 @@ function drawScene(gl, programInfo, buffers, texture, cubeRotation, model) {
    mat4.rotate(
         modelMatrix, // destination matrix
         modelMatrix, // matrix to rotate
-        cubeRotation * 2, // amount to rotate in radians
+        cubeRotation * 2 * 0, // amount to rotate in radians
         [0, 0, 1]
     ); // axis to rotate around (Z)
     mat4.rotate(
         modelMatrix, // destination matrix
         modelMatrix, // matrix to rotate
-        cubeRotation * 1.4, // amount to rotate in radians
+        cubeRotation * 1.4 * 0, // amount to rotate in radians
         [0, 1, 0]
     ); // axis to rotate around (Y)
     mat4.rotate(
         modelMatrix, // destination matrix
         modelMatrix, // matrix to rotate
-        cubeRotation * 0.6, // amount to rotate in radians
+        cubeRotation * 0.6 * 0, // amount to rotate in radians
         [1, 0, 0]
     ); // axis to rotate around (X)
 
@@ -57,27 +57,28 @@ function drawScene(gl, programInfo, buffers, texture, cubeRotation, model) {
     // start drawing the square.
    
 
-
-    mat4.rotate(
-        viewMatrix,
-        viewMatrix,
-        0,
-        [0, 1, 0]
-    )
-
-    mat4.rotate(
-        viewMatrix,
-        viewMatrix,
-        0,
-        [1, 0, 0]
-    )
-
-
     mat4.translate(
         viewMatrix, // destination matrix
         viewMatrix, // matrix to translate
-        [-0.0, 0.0, -3.0]
-    ); // amount to translate
+        [-0.0, 0.0, -3.0] // Distance from 3d cursor
+    );
+    mat4.rotate(
+        viewMatrix,
+        viewMatrix,
+        -rot[1],
+        [1, 0, 0]
+    );
+    mat4.rotate(
+        viewMatrix,
+        viewMatrix,
+        -rot[0],
+        [0, 1, 0]
+    );
+    mat4.translate(
+        viewMatrix,
+        viewMatrix,
+        [0.0, 0.0, -0.0] //position of 3D cursor
+    );
 
     const normalMatrix = mat4.create();
     mat4.invert(normalMatrix, modelMatrix);

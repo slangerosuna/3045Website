@@ -10,9 +10,39 @@ main();
 // start here
 //
 async function main() {
+    var sensitivity = -0.005;
     const canvas = document.querySelector("#glcanvas");
     // Initialize the GL context
     const gl = canvas.getContext("webgl");
+
+    var mouseButtons = [false, false, false];
+    var rot = [0, 0];
+
+    var prevX = 0;
+    var prevY = 0;
+
+    canvas.addEventListener("mousemove", MouseMove, false);
+    canvas.addEventListener("mousedown", MouseDown, false);
+    canvas.addEventListener("mouseup", MouseUp, false);
+    canvas.addEventListener("mousewheel", MouseWheel, false);
+
+    function MouseMove(event) {
+        if (mouseButtons[0]) {
+            rot[0] += (event.x - prevX) * sensitivity;
+            rot[1] += (event.y - prevY) * sensitivity;
+        }
+        prevX = event.x;
+        prevY = event.y;
+    }
+    function MouseDown(event) {
+        mouseButtons[event.button] = true;
+    }
+    function MouseUp(event) {
+        mouseButtons[event.button] = false;
+    }
+    function MouseWheel(event) {
+
+    }
 
     // Only continue if WebGL is available and working
     if (gl === null) {
@@ -118,7 +148,7 @@ async function main() {
         deltaTime = now - then;
         then = now;
 
-        drawScene(gl, programInfo, buffers, texture, cubeRotation);
+        drawScene(gl, programInfo, buffers, texture, cubeRotation, rot);
         cubeRotation += deltaTime;
 
         requestAnimationFrame(render);
