@@ -13,7 +13,7 @@ function drawScene(gl, programInfo, buffers, texture, cubeRotation) {
     const fieldOfView = (45 * Math.PI) / 180; // in radians
     const aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
     const zNear = 0.1;
-    const zFar = 100.0;
+    const zFar = 10000.0;
     const projectionMatrix = mat4.create();
 
     // note: glmatrix.js always has the first argument
@@ -30,22 +30,22 @@ function drawScene(gl, programInfo, buffers, texture, cubeRotation) {
         [0.0, 0.0, 0.0]
     ); // amount to translate
 
-    mat4.rotate(
+   mat4.rotate(
         modelMatrix, // destination matrix
         modelMatrix, // matrix to rotate
-        cubeRotation, // amount to rotate in radians
+        cubeRotation * 2, // amount to rotate in radians
         [0, 0, 1]
     ); // axis to rotate around (Z)
     mat4.rotate(
         modelMatrix, // destination matrix
         modelMatrix, // matrix to rotate
-        cubeRotation * 0.7, // amount to rotate in radians
+        cubeRotation * 1.4, // amount to rotate in radians
         [0, 1, 0]
     ); // axis to rotate around (Y)
     mat4.rotate(
         modelMatrix, // destination matrix
         modelMatrix, // matrix to rotate
-        cubeRotation * 0.3, // amount to rotate in radians
+        cubeRotation * 0.6, // amount to rotate in radians
         [1, 0, 0]
     ); // axis to rotate around (X)
 
@@ -55,6 +55,24 @@ function drawScene(gl, programInfo, buffers, texture, cubeRotation) {
 
     // Now move the drawing position a bit to where we want to
     // start drawing the square.
+   
+
+
+    mat4.rotate(
+        viewMatrix,
+        viewMatrix,
+        Math.sin(cubeRotation * 2.6) / 6,
+        [0, 1, 0]
+    )
+
+    mat4.rotate(
+        viewMatrix,
+        viewMatrix,
+        Math.sin(cubeRotation * 2) / 4,
+        [1, 0, 0]
+    )
+
+
     mat4.translate(
         viewMatrix, // destination matrix
         viewMatrix, // matrix to translate
