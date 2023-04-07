@@ -1,7 +1,7 @@
 import { loadModel } from "./model-loader.js";
 
 async function initBuffers(gl) {
-    var model = await loadModel('sphere.obj');
+    var model = await loadModel('amoogus.obj');
 
     console.log("initializing Position buffer");
     var positionBuffer = null;
@@ -36,6 +36,7 @@ async function initBuffers(gl) {
         normal: normalBuffer,
         textureCoord: textureCoordBuffer,
         indices: indexBuffer,
+        vertexCount: model.indices.length,
     };
 }
 

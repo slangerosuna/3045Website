@@ -41,9 +41,9 @@ function parseOBJ(text) {
                 split.push(parts[i].split('/'));
             }
             if (parts.length == 3) {
-                objIndices.push(parseInt(split[0][0]));
-                objIndices.push(parseInt(split[1][0]));
-                objIndices.push(parseInt(split[2][0]));
+                objIndices.push(parseInt(split[0][0], 10));
+                objIndices.push(parseInt(split[1][0], 10));
+                objIndices.push(parseInt(split[2][0], 10));
             } else if (parts.length == 4) {
                 objIndices.push(parseInt(split[0][0]));
                 objIndices.push(parseInt(split[1][0]));
@@ -137,9 +137,12 @@ function parseOBJ(text) {
 
         for (var j = 0; j < length; j++) {
             var vertex = objTexcoordsByVertex[i][j];
-
-            total[0] += vertex[0];
-            total[1] += vertex[1];
+            try {
+                total[0] += vertex[0];
+                total[1] += vertex[1];
+            } catch {
+                console.log(vertex);
+            }
         }
 
         total[0] /= length;

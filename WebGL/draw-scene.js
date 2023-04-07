@@ -1,4 +1,4 @@
-function drawScene(gl, programInfo, buffers, texture, cubeRotation) {
+function drawScene(gl, programInfo, buffers, texture, cubeRotation, model) {
     gl.clearColor(0.0, 0.0, 0.0, 1.0); // Clear to black, fully opaque
     gl.clearDepth(1.0); // Clear everything
     gl.enable(gl.DEPTH_TEST); // Enable depth testing
@@ -61,14 +61,14 @@ function drawScene(gl, programInfo, buffers, texture, cubeRotation) {
     mat4.rotate(
         viewMatrix,
         viewMatrix,
-        Math.sin(cubeRotation * 2.6) / 6,
+        0,
         [0, 1, 0]
     )
 
     mat4.rotate(
         viewMatrix,
         viewMatrix,
-        Math.sin(cubeRotation * 2) / 4,
+        0,
         [1, 0, 0]
     )
 
@@ -129,7 +129,7 @@ function drawScene(gl, programInfo, buffers, texture, cubeRotation) {
     gl.uniform1i(programInfo.uniformLocations.uSampler, 0);
 
     {
-        const vertexCount = 36;
+        const vertexCount = buffers.vertexCount;
         const type = gl.UNSIGNED_SHORT;
         const offset = 0;
         gl.drawElements(gl.TRIANGLES, vertexCount, type, offset);
