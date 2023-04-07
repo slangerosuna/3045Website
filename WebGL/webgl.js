@@ -22,6 +22,8 @@ async function main() {
     var prevY = 0;
 
     canvas.addEventListener("mousemove", MouseMove, false);
+    canvas.addEventListener("touchmove", TouchMove, false);
+    canvas.addEventListener("touchstart", TouchStart, false);
     canvas.addEventListener("mousedown", MouseDown, false);
     canvas.addEventListener("mouseup", MouseUp, false);
     canvas.addEventListener("mousewheel", MouseWheel, false);
@@ -33,6 +35,17 @@ async function main() {
         }
         prevX = event.x;
         prevY = event.y;
+    }
+    function TouchStart(event) {
+        prevX = event.targetTouches[0].clientX;
+        prevY = event.targetTouches[0].clientY;
+    }
+    function TouchMove(event) {
+        rot[0] += (event.targetTouches[0].clientX - prevX) * sensitivity;
+        rot[1] += (event.targetTouches[0].clientY - prevY) * sensitivity;
+
+        prevX = event.targetTouches[0].clientX;
+        prevY = event.targetTouches[0].clientY;
     }
     function MouseDown(event) {
         mouseButtons[event.button] = true;
