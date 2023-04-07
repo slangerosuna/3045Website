@@ -1,7 +1,7 @@
 import { loadModel } from "./model-loader.js";
 
 async function initBuffers(gl) {
-    var model = await loadModel('cube.obj');
+    var model = await loadModel('sphere.obj');
 
     console.log("initializing Position buffer");
     var positionBuffer = null;

@@ -41,9 +41,9 @@ function parseOBJ(text) {
                 split.push(parts[i].split('/'));
             }
             if (parts.length == 3) {
-                for (var i = 0; i < 3; i++) {
-                    objIndices.push(parseInt(split[i][0]));
-                }
+                objIndices.push(parseInt(split[0][0]));
+                objIndices.push(parseInt(split[1][0]));
+                objIndices.push(parseInt(split[2][0]));
             } else if (parts.length == 4) {
                 objIndices.push(parseInt(split[0][0]));
                 objIndices.push(parseInt(split[1][0]));
