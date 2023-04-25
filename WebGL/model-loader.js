@@ -4,10 +4,10 @@ async function loadModel(path) {
     const obj = parseOBJ(text);
 
     var modelData = {
-        positions: obj.objPositions,
-        indices: obj.objIndices,
-        vertexNormals: obj.objNormalsByVertex,
-        textureCoordinates: obj.objTexcoordsByVertex
+        positions: obj.objPositionsFinal,
+        indices: obj.objIndicesFinal,
+        vertexNormals: obj.objNormalsFinal,
+        textureCoordinates: obj.objTexcoordsFinal
     }
 
     return modelData;
@@ -41,25 +41,32 @@ function parseOBJ(text) {
                 split.push(parts[i].split('/'));
             }
             if (parts.length == 3) {
-                objIndices.push(parseInt(split[0][0], 10));
-                objIndices.push(parseInt(split[1][0], 10));
-                objIndices.push(parseInt(split[2][0], 10));
+                pushIndex(0);
+                pushIndex(1);
+                pushIndex(2);
             } else if (parts.length == 4) {
-                objIndices.push(parseInt(split[0][0]));
-                objIndices.push(parseInt(split[1][0]));
-                objIndices.push(parseInt(split[2][0]));
+                pushIndex(0);
+                pushIndex(1);
+                pushIndex(2);
 
-                objIndices.push(parseInt(split[0][0]));
-                objIndices.push(parseInt(split[3][0]));
-                objIndices.push(parseInt(split[2][0]));
+                pushIndex(0);
+                pushIndex(3);
+                pushIndex(2);
             } else {
                 throw new Exception();
             }
-            for (var i = 0; i < split.length; i++) {
+            function pushIndex(i) {
+                objIndicesTempData.push([
+                    parseInt(split[i][0]),
+                    parseInt(split[i][1]),
+                    parseInt(split[i][2])
+                ])
+            }
+            /*for (var i = 0; i < split.length; i++) {
                 objIndicesTempData.push([parseInt(split[i][0]),
                 parseInt(split[i][1]),
                 parseInt(split[i][2])]);
-            }
+            }*/
         },
         s: noop,    // smoothing group
         mtllib(parts, unparsedArgs) {
@@ -98,7 +105,7 @@ function parseOBJ(text) {
         }
         handler(parts, unparsedArgs);
     }
-
+    /*
     var objNormalsByVertex = [];
     var objTexcoordsByVertex = [];
 
@@ -149,48 +156,62 @@ function parseOBJ(text) {
         total[1] /= length;
 
         objTexcoordsByVertex[i] = total;
+    }*/
+
+    var objPositionsFinal = [[0, 0, 0]];
+    var objNormalsFinal = [[0, 0, 0]];
+    var objTexcoordsFinal = [[0, 0]];
+    var objIndicesFinal = [];
+
+    var x = 0
+    for (var i = 0; i < objIndicesTempData.length; i++) {
+        objIndicesFinal.push(i + 1);
+
+        objPositionsFinal.push(objPositions[objIndicesTempData[i][0]]);
+        objNormalsFinal.push(objNormals[objIndicesTempData[i][2]]);
+        objTexcoordsFinal.push(objTexcoords[objIndicesTempData[i][1]]);
     }
 
     var temp = []
 
-    for (var i = 0; i < objPositions.length; i++) {
-        for (var j = 0; j < objPositions[i].length; j++) {
-            temp.push(objPositions[i][j]);
+    for (var i = 0; i < objPositionsFinal.length; i++) {
+        for (var j = 0; j < objPositionsFinal[i].length; j++) {
+            temp.push(objPositionsFinal[i][j]);
         }
     }
 
-    objPositions = temp;
+    objPositionsFinal = temp;
 
     var temp = []
 
-    for (var i = 0; i < objNormalsByVertex.length; i++) {
-        for (var j = 0; j < objNormalsByVertex[i].length; j++) {
-            temp.push(objNormalsByVertex[i][j]);
+    for (var i = 0; i < objNormalsFinal.length; i++) {
+        for (var j = 0; j < objNormalsFinal[i].length; j++) {
+            temp.push(objNormalsFinal[i][j]);
         }
     }
 
-    objNormalsByVertex = temp;
+    objNormalsFinal = temp;
 
     var temp = []
 
-    for (var i = 0; i < objTexcoordsByVertex.length; i++) {
-        for (var j = 0; j < objTexcoordsByVertex[i].length; j++) {
-            temp.push(objTexcoordsByVertex[i][j]);
+    for (var i = 0; i < objTexcoordsFinal.length; i++) {
+        for (var j = 0; j < objTexcoordsFinal[i].length; j++) {
+            temp.push(objTexcoordsFinal[i][j]);
         }
     }
 
-    objTexcoordsByVertex = temp;
+    objTexcoordsFinal = temp;
 
-    console.log(objPositions);
-    console.log(objTexcoordsByVertex);
-    console.log(objNormalsByVertex);
-    console.log(objIndices);
+    console.log(objPositionsFinal);
+    console.log(objTexcoordsFinal);
+    console.log(objNormalsFinal);
+    console.log(objIndicesFinal);
 
     return {
-        objPositions,
-        objTexcoordsByVertex,
-        objNormalsByVertex,
-        objIndices
+        objPositionsFinal,
+        objTexcoordsFinal,
+        objNormalsFinal,
+        objIndicesFinal
     }
 }
 
