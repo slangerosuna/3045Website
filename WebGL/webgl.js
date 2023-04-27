@@ -149,7 +149,7 @@ async function main() {
     const buffers = await initBuffers(gl);
 
     // Load texture
-    const texture = loadTexture(gl, "amoogus.png");
+    const texture = loadTexture(gl, "WebGL/amoogus.png");
     // Flip image pixels into the bottom-to-top order that WebGL expects.
     gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
 

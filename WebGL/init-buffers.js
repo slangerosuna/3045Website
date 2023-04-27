@@ -1,7 +1,7 @@
 import { loadModel } from "./model-loader.js";
 
 async function initBuffers(gl) {
-    var model = await loadModel('amoogus.obj');
+    var model = await loadModel('WebGL/amoogus.obj');
 
     console.log("initializing Position buffer");
     var positionBuffer = null;
